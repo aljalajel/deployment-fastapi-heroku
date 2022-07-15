@@ -48,12 +48,11 @@ def inference(model_input: ModelInput):
             lb=lb)
 
     prediction = model.predict(X)
-    
     if prediction[0] == 1:
-        prediction = "Salary > 50k"
+        salary = "> 50k"
     else:
-        prediction = "Salary <= 50k"
-    return {"prediction": prediction}
+        salary = "<= 50k"
+    return {"Salary": salary}
 
 if __name__ == '__main__':
     example = {
@@ -72,5 +71,6 @@ if __name__ == '__main__':
             "hours-per-week": 40,
             "native-country": "United-States",
     }
-    r = inference(example)
+    r = inference(ModelInput(**example))
+
     print(r)

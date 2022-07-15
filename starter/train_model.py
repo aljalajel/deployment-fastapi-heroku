@@ -1,5 +1,6 @@
 # Script to train machine learning model.
 import os
+from pyexpat import model
 import joblib
 import pandas as pd
 
