@@ -21,4 +21,5 @@ if __name__ == '__main__':
 response = requests.post(
     'http://127.0.0.1:8000/inference/',
     json.dumps(example))
-print(response.json())
+print(f'response_code: {response.status_code}')
+print(f'result: {response.json()}')
