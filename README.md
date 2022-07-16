@@ -1,3 +1,5 @@
+[Project Repo](https://github.com/aljalajel/deployment-fastapi-heroku)
+
 # Instructions
 - Install reauirements: pip install requirements.txt
 - Train the model: python starter/train_model.py
