@@ -44,3 +44,10 @@ if __name__ == '__main__':
     joblib.dump(trained_model, os.path.join(file_path, '../model/model.joblib'))
     joblib.dump(encoder, os.path.join(file_path,'../model/encoder.joblib'))
     joblib.dump(lb, os.path.join(file_path,'../model/lb.joblib'))
+
+    #Save the metrics
+    preds = inference(trained_model, X_test)
+    precision, recall, fbeta = compute_model_metrics(y_test, preds)
+    metrics = [precision, recall, fbeta]
+    metrics_df = pd.DataFrame([[precision, recall, fbeta]], columns=['precision', 'recall', 'fbeta'])
+    metrics_df.to_csv(os.path.join(file_path, '../model/metrics.csv'))
