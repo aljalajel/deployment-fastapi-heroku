@@ -1,6 +1,5 @@
 # Script to train machine learning model.
 import os
-from pyexpat import model
 import joblib
 import pandas as pd
 
@@ -11,13 +10,13 @@ from ml.data import process_data
 from ml.model import train_model, inference, compute_model_metrics
 
 
-
 if __name__ == '__main__':
-    
+
     file_path = os.path.dirname(__file__)
     # Add code to load in the data.
     data = pd.read_csv(os.path.join(file_path, "../data/census.csv"))
-    # Optional enhancement, use K-fold cross validation instead of a train-test split.
+    # Optional enhancement, use K-fold cross validation instead of a
+    # train-test split.
     train, test = train_test_split(data, test_size=0.20, random_state=42)
 
     cat_features = [
@@ -36,18 +35,22 @@ if __name__ == '__main__':
 
     # Proces the test data with the process_data function.
     X_test, y_test, encoder, lb = process_data(
-        test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb
-    )
+        test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb)
 
     # Train and save a model.
     trained_model = train_model(X_train, y_train)
-    joblib.dump(trained_model, os.path.join(file_path, '../model/model.joblib'))
-    joblib.dump(encoder, os.path.join(file_path,'../model/encoder.joblib'))
-    joblib.dump(lb, os.path.join(file_path,'../model/lb.joblib'))
+    joblib.dump(
+        trained_model,
+        os.path.join(
+            file_path,
+            '../model/model.joblib'))
+    joblib.dump(encoder, os.path.join(file_path, '../model/encoder.joblib'))
+    joblib.dump(lb, os.path.join(file_path, '../model/lb.joblib'))
 
-    #Save the metrics
+    # Save the metrics
     preds = inference(trained_model, X_test)
     precision, recall, fbeta = compute_model_metrics(y_test, preds)
     metrics = [precision, recall, fbeta]
-    metrics_df = pd.DataFrame([[precision, recall, fbeta]], columns=['precision', 'recall', 'fbeta'])
+    metrics_df = pd.DataFrame([[precision, recall, fbeta]], columns=[
+                              'precision', 'recall', 'fbeta'])
     metrics_df.to_csv(os.path.join(file_path, '../model/metrics.csv'))

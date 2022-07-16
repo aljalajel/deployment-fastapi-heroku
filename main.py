@@ -13,19 +13,15 @@ model = joblib.load(os.path.join(file_path, './model/model.joblib'))
 encoder = joblib.load(os.path.join(file_path, './model/encoder.joblib'))
 lb = joblib.load(os.path.join(file_path, './model/lb.joblib'))
 cat_features = [
-"workclass",
-"education",
-"marital-status",
-"occupation",
-"relationship",
-"race",
-"sex",
-"native-country",
+    "workclass",
+    "education",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "native-country",
 ]
-
-
-
-
 
 
 app = FastAPI()
@@ -41,11 +37,11 @@ def inference(model_input: ModelInput):
     df = pd.DataFrame(model_input.dict(by_alias=True), index=[0])
 
     X, _, _, _ = process_data(
-            df,
-            categorical_features=cat_features,
-            training=False,
-            encoder=encoder,
-            lb=lb)
+        df,
+        categorical_features=cat_features,
+        training=False,
+        encoder=encoder,
+        lb=lb)
 
     prediction = model.predict(X)
     if prediction[0] == 1:
@@ -54,22 +50,23 @@ def inference(model_input: ModelInput):
         salary = "<= 50k"
     return {"Salary": salary}
 
+
 if __name__ == '__main__':
     example = {
-            "age": 39,
-            "workclass": "State-gov",
-            "fnlgt": 77516,
-            "education": "Bachelors",
-            "education-num": 13,
-            "marital-status": "Never-married",
-            "occupation": "Adm-clerical",
-            "relationship": "Not-in-family",
-            "race": "White",
-            "sex": "Female",
-            "capital-gain": 2174,
-            "capital-loss": 0,
-            "hours-per-week": 40,
-            "native-country": "United-States",
+        "age": 39,
+        "workclass": "State-gov",
+        "fnlgt": 77516,
+        "education": "Bachelors",
+        "education-num": 13,
+        "marital-status": "Never-married",
+        "occupation": "Adm-clerical",
+        "relationship": "Not-in-family",
+        "race": "White",
+        "sex": "Female",
+        "capital-gain": 2174,
+        "capital-loss": 0,
+        "hours-per-week": 40,
+        "native-country": "United-States",
     }
     r = inference(ModelInput(**example))
 

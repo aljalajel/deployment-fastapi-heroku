@@ -6,7 +6,7 @@ import numpy as np
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from starter.ml.model import (train_model, compute_model_metrics, inference)
+from starter.ml.model import (train_model, compute_model_metrics)
 from starter.ml.data import process_data
 
 
@@ -17,8 +17,9 @@ def train_test():
     train, test = train_test_split(df, test_size=0.20, random_state=42)
     return train
 
+
 def test_train_model(train_test):
-        cat_features = [
+    cat_features = [
         "workclass",
         "education",
         "marital-status",
@@ -29,18 +30,17 @@ def test_train_model(train_test):
         "native-country",
     ]
 
-        X_train, y_train, encoder, lb = process_data(
-        train_test, categorical_features=cat_features, label="salary", training=True
-        )
-        
-        trained_model = train_model(X_train, y_train)
+    X_train, y_train, encoder, lb = process_data(
+        train_test, categorical_features=cat_features, label="salary", training=True)
 
-        assert isinstance(trained_model, RandomForestClassifier)
+    trained_model = train_model(X_train, y_train)
+
+    assert isinstance(trained_model, RandomForestClassifier)
 
 
 def test_compute_model_metrics():
-    y = np.array([0,1,0])
-    preds = np.array([0,1,1])
+    y = np.array([0, 1, 0])
+    preds = np.array([0, 1, 1])
     precision, recall, fbeta = compute_model_metrics(y, preds)
     assert isinstance(precision, float)
     assert isinstance(recall, float)
@@ -50,7 +50,10 @@ def test_compute_model_metrics():
 def test_inference():
     file_path = os.path.dirname(__file__)
     model = joblib.load(os.path.join(file_path, '../../model/model.joblib'))
-    encoder = joblib.load(os.path.join(file_path, '../../model/encoder.joblib'))
+    encoder = joblib.load(
+        os.path.join(
+            file_path,
+            '../../model/encoder.joblib'))
     lb = joblib.load(os.path.join(file_path, '../../model/lb.joblib'))
     example = {
         "age": 39,
@@ -67,7 +70,7 @@ def test_inference():
         "capital-loss": 0,
         "hours-per-week": 40,
         "native-country": "United-States",
-        }
+    }
 
     cat_features = [
         "workclass",
@@ -83,13 +86,12 @@ def test_inference():
     df = pd.DataFrame(example, index=[0])
 
     X, _, _, _ = process_data(
-    df,
-    categorical_features=cat_features,
-    training=False,
-    encoder=encoder,
-    lb=lb)
+        df,
+        categorical_features=cat_features,
+        training=False,
+        encoder=encoder,
+        lb=lb)
 
     preds = model.predict(X)
     print(preds)
     assert isinstance(preds, np.ndarray)
-
