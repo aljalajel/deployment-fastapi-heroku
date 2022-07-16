@@ -1,4 +1,11 @@
-Working in a command line environment is recommended for ease of use with git and dvc. If on Windows, WSL1 or 2 is recommended.
+# Instructions
+- Install reauirements: pip install requirements.txt
+- Train the model: python starter/train_model.py
+- Get the slice metrics: python starter/ml/slice_metrics.py
+- Run the model tests: pytest starter/ml/test_model.py
+- Start the web server: uvicorn main:app --reload
+- Run the main tests: pytest test_main.py
+- Run the live post query test: python post.py
 
 # Environment Set up
 * Download and install conda if you don’t have it already.
