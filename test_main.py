@@ -33,6 +33,7 @@ def test_post_less_than_50():
     data = json.dumps(example)
     r = client.post("/inference/", data=data)
     print(r.json())
+    assert r.status_code == 200
     assert r.json()["Salary"] == '<= 50k'
 
 
@@ -56,4 +57,5 @@ def test_post_greater_than_50():
     data = json.dumps(example)
     r = client.post("/inference/", data=data)
     print(r.json())
+    assert r.status_code == 200
     assert r.json()["Salary"] == '> 50k'
